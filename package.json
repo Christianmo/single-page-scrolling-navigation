@@ -1,6 +1,6 @@
 {
-  "name": "@cmo/single-page-scrolling-navigation",
-  "version": "1.0.0",
+  "name": "single-page-scrolling-navigation",
+  "version": "1.0.1",
   "description": "Single page scrolling navigation",
   "main": "lib/index.js",
   "scripts": {

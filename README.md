@@ -5,11 +5,11 @@ Small library to handle scroll navigation on one page websites
 ### Install
 
 ```
-npm i @cmo/single-page-scrolling-navigation
+npm install single-page-scrolling-navigation
 ```
 
 ```javascript
-import { singlePageNavigation } from "@cmo/single-page-scrolling-navigation";
+import { singlePageNavigation } from "single-page-scrolling-navigation";
 ```
 
 ### Setting
