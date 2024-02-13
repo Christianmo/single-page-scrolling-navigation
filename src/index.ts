@@ -3,6 +3,7 @@ interface optionsValues {
   childSelector: string;
   time: number;
   easing: string;
+  gap?: number;
   cb: () => void;
 }
 
@@ -59,10 +60,15 @@ const easingFunctions: easingFunctionsOptions = {
   },
 };
 
+let isScrolling = false;
+
 function scrollToPos(nextPos: number, options: optionsValues) {
   const currentPos = window.pageYOffset;
-  const startTime = window.performance.now();
+  if (nextPos === currentPos) return;
 
+  const startTime = window.performance.now();
+  isScrolling = true;
+  
   function scrollAnimation(currentTime: number) {
     const interval = Math.abs(currentTime - startTime);
 
@@ -80,6 +86,7 @@ function scrollToPos(nextPos: number, options: optionsValues) {
       window.scrollTo(0, nextPos);
 
       if (options.cb) options.cb();
+      isScrolling = false;
     }
   }
   window.requestAnimationFrame(scrollAnimation);
@@ -119,8 +126,9 @@ export function singlePageNavigation(options: optionsValues) {
       return false;
     }
 
+    const gap = options.gap || 0;
     const linkEl = link;
-    const topPos = sectionEl.offsetTop;
+    const topPos = sectionEl.offsetTop - gap;
     const bottomPos = topPos + sectionEl.offsetHeight;
 
     linksPosArr.push({
@@ -130,8 +138,10 @@ export function singlePageNavigation(options: optionsValues) {
       bottomPos,
     });
 
-    link.addEventListener("click", function () {
-      const nextPos = sectionEl.offsetTop;
+    link.addEventListener("click", function (evt) {
+      evt.preventDefault();
+      if (isScrolling) return;
+      const nextPos = sectionEl.offsetTop - gap;
       scrollToPos(nextPos, options);
     });
   });
